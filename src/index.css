@@ -19,51 +19,120 @@
 }
 
 /* General Navbar Styling */
+
+/* General Navbar Styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 70px 25px 75px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-  font-size: 20px;
+  padding: 15px 20px;
+  background: linear-gradient(90deg, #007F86, #00A0A8);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+/* Brand Styling */
 .navbar-brand a {
-  font-size: 24px;
-  font-weight: bold;
-  color: #007F86;
   text-decoration: none;
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
+/* Navbar Toggle Button */
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8em;
+  color: white;
+  cursor: pointer;
+}
+
+/* Navbar Links */
 .navbar-ul {
-  list-style: none;
   display: flex;
-  align-items: center;
-  margin: 0;
+  list-style: none;
   padding: 0;
-  flex-wrap: wrap;
-}
-
-.navbar-ul li {
-  margin-left: 20px;
+  margin: 0;
+  gap: 15px;
 }
 
 .navbar-ul li a {
   text-decoration: none;
-  color: #666;
-  transition: color 0.5s;
+  color: white;
+  font-size: 1em;
+  transition: color 0.3s;
 }
 
-.navbar-ul li a:hover {
-  color: #FF007F;
-  color: #FF7F50;
-}
-
+.navbar-ul li a:hover,
 .navbar-ul li a.active {
   color: #FF7F50;
 }
+
+/* Logout Link */
+.logout {
+  color: red;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-toggle {
+      display: block; /* Show toggle button */
+  }
+
+  .navbar-ul {
+      display: none; /* Hidden by default */
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px 0;
+      z-index: 999;
+  }
+
+  .navbar-ul.dropdown {
+      display: flex; /* Display menu on toggle */
+      animation: dropdownAnimation 0.3s ease-out;
+  }
+
+  .navbar-ul li {
+      text-align: center;
+      margin: 10px 0;
+  }
+
+  .navbar-ul li a {
+      color: #007F86;
+      font-size: 1.2em;
+  }
+
+  .navbar-ul li a:hover {
+      color: #FF7F50;
+  }
+
+  .logout {
+      color: red;
+      font-weight: bold;
+  }
+
+  @keyframes dropdownAnimation {
+      from {
+          transform: translateY(-20px);
+          opacity: 0;
+      }
+      to {
+          transform: translateY(0);
+          opacity: 1;
+      }
+  }
+}
+
 
 .auth-container {
   max-width: 400px;
@@ -1117,7 +1186,7 @@ h2 {
 
 
 
-
+/*
 /* Responsive styles */
 @media (max-width: 768px) {
 
@@ -1195,24 +1264,5 @@ h2 {
 
   /*Navbar*/
 
-  .navbar {
-      padding: 5px 10px 5px 10px;
-  }
-
-  .navbar-ul {
-      justify-content: space-between;
-  }
-
-  .navbar-ul li {
-      flex: 1 1 22%;
-      /* Adjust to fit 4 items per row */
-      margin-left: 0;
-      margin-bottom: 10px;
-      text-align: center;
-  }
-
-  .navbar-ul li a {
-      display: block;
-  }
 
 }
