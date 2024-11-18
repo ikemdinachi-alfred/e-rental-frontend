@@ -156,7 +156,7 @@ button[type="submit"]:hover {
 /**NAV BAR STYLING END HERE*/
 
 /* FOOTER STYKLING */
-.my-footer {
+/* .my-footer {
   color: #f0e8e8;
   background-color: #444;
   padding: 20px;
@@ -164,7 +164,23 @@ button[type="submit"]:hover {
   position: fixed;
   bottom: 0;
   width: 100%;
+  font-weight: 500; 
+}
+*/
+.my-footer {
+  color: #f0e8e8;
+  background-color: #444;
+  padding: 10px 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* optional shadow */
+  z-index: 1000;
 }
 
 
