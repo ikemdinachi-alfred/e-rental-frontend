@@ -6,6 +6,9 @@ import LoginPage from './component/auth/LoginPage';
 import RegisterPage from './component/auth/RegisterPage';
 import Navbar from './component/common/Navbar';
 import FooterComponent from './component/common/Footer';
+import { AdminRoute } from './service/guard';
+import AdminPage from './component/admin/AdminPage';
+import AddItemPage from './component/admin/addItemPage';
 
 function App() {
   return (
@@ -20,7 +23,11 @@ function App() {
     <Route exact path='/login' element={<LoginPage></LoginPage>} />
     <Route exact path='/register' element={<RegisterPage></RegisterPage>} />
 
-
+    {/* Admin Routes */}
+    <Route path='/admin' element={<AdminRoute element={<AdminPage/>}/>} />
+    <Route path="/admin/add-item"
+              element={<AdminRoute element={<AddItemPage />} />}
+            />
   
     {/* Fallback Route */}
     <Route path="*" element={<Navigate to="/login" />} />       
