@@ -2,7 +2,7 @@ import axios from "axios"
 
 export default class ApiService {
 
-    static BASE_URL = "http://localhost:9090"
+    static BASE_URL = "https://docked-e-rental-project-1.onrender.com"
 
     static getHeader() {
         const token = localStorage.getItem("token");
