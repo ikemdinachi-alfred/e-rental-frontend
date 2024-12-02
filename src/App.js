@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HomePage from './component/home/HomePage';
@@ -21,57 +20,62 @@ import ManageBookingsPage from './component/admin/ManageBookingsPage';
 
 function App() {
   return (
-   <BrowserRouter>
-   <div className='App'>
-    <Navbar></Navbar>
-    <div className="content">
-    <FooterComponent></FooterComponent> 
-   <Routes>
-    {/*Public Routes */}
-    <Route exact path='/home' element={<HomePage></HomePage>} />
-    <Route exact path='/login' element={<LoginPage></LoginPage>} />
-    <Route exact path='/register' element={<RegisterPage></RegisterPage>} />
-    <Route path="/items" element={<AllItemsPage/>} />
-    <Route path="/find-booking" element={<FindBookingPage />} />
+    <BrowserRouter>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/items" element={<AllItemsPage />} />
+            <Route path="/find-booking" element={<FindBookingPage />} />
 
+            {/* Protected Routes */}
+            <Route
+              path="/item-details-book/:itemId"
+              element={<ProtectedRoute element={<ItemDetailsPage />} />}
+            />
+            <Route
+              path="/profile"
+              element={<ProtectedRoute element={<ProfilePage />} />}
+            />
+            <Route
+              path="/edit-profile"
+              element={<ProtectedRoute element={<EditProfilePage />} />}
+            />
 
-   {/* Protected Routes*/}
-   <Route path="/item-details-book/:itemId"
-   element={<ProtectedRoute element={<ItemDetailsPage />} />}
-   />
-
-   <Route path='/profile'
-   element={<ProtectedRoute Route element={<ProfilePage/>} />}
-   />
-    <Route path='/edit-profile'
-   element={<ProtectedRoute element={<EditProfilePage/>} />}
-   />
-   
-    {/* Admin Routes */}
-    <Route path='/admin' element={<AdminRoute element={<AdminPage/>}/>} />
-    <Route path="/admin/add-items"
-      element={<AdminRoute element={<AddItemPage />} />}
-    />
-     <Route path="/admin/manage-items"
-        element={<AdminRoute element={<ManageItemPage />} />}
-    />
-    <Route path="/admin/edit-item/:itemId"
-        element={<AdminRoute element={<EditItemPage />} />}
-    />
-    <Route path="/admin/manage-bookings"
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
+            <Route
+              path="/admin/add-items"
+              element={<AdminRoute element={<AddItemPage />} />}
+            />
+            <Route
+              path="/admin/manage-items"
+              element={<AdminRoute element={<ManageItemPage />} />}
+            />
+            <Route
+              path="/admin/edit-item/:itemId"
+              element={<AdminRoute element={<EditItemPage />} />}
+            />
+            <Route
+              path="/admin/manage-bookings"
               element={<AdminRoute element={<ManageBookingsPage />} />}
             />
-            <Route path="/admin/edit-booking/:bookingCode"
+            <Route
+              path="/admin/edit-booking/:bookingCode"
               element={<AdminRoute element={<EditBookingPage />} />}
             />
-    
-    {/* Fallback Route */}
-    <Route path="*" element={<Navigate to="/login" />} />       
-   </Routes>
-   </div>
-   
-   </div>
-   </BrowserRouter>
+
+            {/* Fallback Route */}
+            <Route path="*" element={<Navigate to="/home" />} />
+          </Routes>
+        </div>
+        <FooterComponent />
+      </div>
+    </BrowserRouter>
   );
 }
 

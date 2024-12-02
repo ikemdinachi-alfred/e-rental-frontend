@@ -15,45 +15,49 @@ const ItemSearch = ({ handleSearchResult }) => {
       try {
         const types = await ApiService.getItemTypes();
         setItemTypes(types);
-      } catch (error) {
-        console.error('Error fetching item types:', error.message);
+      } catch (err) {
+        console.error('Error fetching item types:', err.message);
       }
     };
     fetchItemTypes();
   }, []);
 
-  /**This methods is going to be used to show errors */
   const showError = (message, timeout = 5000) => {
     setError(message);
-    setTimeout(() => {
-      setError('');
-    }, timeout);
+    setTimeout(() => setError(''), timeout);
   };
 
-  /**THis is going to be used to fetch available items from database base on seach data that'll be passed in */
   const handleInternalSearch = async () => {
     if (!startDate || !endDate || !itemType) {
       showError('Please select all fields');
-      return false;
+      return;
     }
-    try {
-      // Convert startDate to the desired format
-      const formattedStartDate = startDate ? startDate.toISOString().split('T')[0] : null;
-      const formattedEndDate = endDate ? endDate.toISOString().split('T')[0] : null;
-      // Call the API to fetch available items
-      const response = await ApiService.getAvailableRoomsByDateAndType(formattedStartDate, formattedEndDate, itemType);
 
-      // Check if the response is successful
-      if (response.statusCode === 200) {
-        if (response.itemList.length === 0) {
-          showError('Item not currently available for this date range on the selected item type.');
-          return
+    try {
+      const formattedStartDate = startDate.toISOString().split('T')[0];
+      const formattedEndDate = endDate.toISOString().split('T')[0];
+
+      const response = await ApiService.getAvailableItemsByDateAndType(
+        formattedStartDate,
+        formattedEndDate,
+        itemType
+      );
+
+      if (response.status === 200) {
+        const { itemList } = response.data;
+        if (itemList.length === 0) {
+          showError('Item not available for the selected date range and type.');
+          return;
         }
-        handleSearchResult(response.itemList);
-        setError('');
+        handleSearchResult(itemList);
       }
     } catch (error) {
-      showError("Unknown error occurred: " + error.response.data.message);
+      if (error.response) {
+        showError(`Error: ${error.response.data.message}`);
+      } else {
+        showError('Network error or invalid API endpoint');
+        console.error('Error details:', error);
+      }
     }
   };
 
@@ -78,16 +82,15 @@ const ItemSearch = ({ handleSearchResult }) => {
             placeholderText="Select Check-out Date"
           />
         </div>
-
         <div className="search-field">
           <label>Item Type</label>
           <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
             <option disabled value="">
               Select Item Type
             </option>
-            {itemTypes.map((itemType) => (
-              <option key={itemType} value={itemType}>
-                {itemType}
+            {itemTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
               </option>
             ))}
           </select>
