@@ -84,7 +84,7 @@ export default class ApiService {
 
     /* This  gets all available items */
     static async getAllAvailableItems() {
-        const result = await axios.get(`${this.BASE_URL}/items/all-available-items`)
+        const result = await axios.get(`${this.BASE_URL}/items/all-available-item`)
         return result.data
     }
 
