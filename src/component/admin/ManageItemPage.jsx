@@ -75,7 +75,7 @@ const ManageItemPage = () => {
               </option>
             ))}
           </select>
-          <button className='add-room-button' onClick={() => navigate('/admin/add-item')}>
+          <button className='add-room-button' onClick={() => navigate('/admin/add-items')}>
             Add Item
           </button>
         </div>

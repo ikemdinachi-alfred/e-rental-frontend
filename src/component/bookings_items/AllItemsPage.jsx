@@ -4,8 +4,6 @@ import Pagination from '../common/Pagination';
 import ItemSearch from '../common/ItemSearch';
 import ItemResult from '../common/ItemResult';
 
-
-
 const AllItemsPage = () => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -14,18 +12,11 @@ const AllItemsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
-  // Function to handle search results
-  const handleSearchResult = (results) => {
-    setItems(results);
-    setFilteredItems(results);
-  };
-
-
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await ApiService.getAllItems();
-        const allItems = response.itemList;
+        const allItems = response?.itemList || []; // Fallback to empty array
         setItems(allItems);
         setFilteredItems(allItems);
       } catch (error) {
@@ -36,7 +27,7 @@ const AllItemsPage = () => {
     const fetchItemTypes = async () => {
       try {
         const types = await ApiService.getItemTypes();
-        setItemTypes(types);
+        setItemTypes(types || []); // Fallback to empty array
       } catch (error) {
         console.error('Error fetching Item types:', error.message);
       }
@@ -45,6 +36,11 @@ const AllItemsPage = () => {
     fetchItems();
     fetchItemTypes();
   }, []);
+
+  const handleSearchResult = (results) => {
+    setItems(results || []);
+    setFilteredItems(results || []);
+  };
 
   const handleItemTypeChange = (e) => {
     setSelectedItemType(e.target.value);
@@ -61,18 +57,16 @@ const AllItemsPage = () => {
     setCurrentPage(1); // Reset to first page after filtering
   };
 
-  // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredItems?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className='all-rooms'>
+    <div className="all-rooms">
       <h2>All Items</h2>
-      <div className='all-room-filter-div'>
+      <div className="all-room-filter-div">
         <label>Filter by Item Type:</label>
         <select value={selectedItemType} onChange={handleItemTypeChange}>
           <option value="">All</option>
@@ -83,13 +77,11 @@ const AllItemsPage = () => {
           ))}
         </select>
       </div>
-      
       <ItemSearch handleSearchResult={handleSearchResult} />
       <ItemResult itemSearchResults={currentItems} />
-
       <Pagination
         itemsPerPage={itemsPerPage}
-        totalItems={filteredItems.length}
+        totalItems={filteredItems?.length || 0}
         currentPage={currentPage}
         paginate={paginate}
       />
