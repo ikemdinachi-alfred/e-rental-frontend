@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ApiService from '../../service/ApiService';
 
-
-const AddItemPage = () => {
+const EditItemPage = () => {
+    const { itemId } = useParams();
     const navigate = useNavigate();
     const [itemDetails, setItemDetails] = useState({
         itemPhotoUrl: '',
@@ -16,23 +16,23 @@ const AddItemPage = () => {
     const [preview, setPreview] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [itemTypes, setItemTypes] = useState([]);
-    const [newItemType, setNewItemType] = useState(false);
-
 
     useEffect(() => {
-        const fetchItemTypes = async () => {
+        const fetchItemDetails = async () => {
             try {
-                const types = await ApiService.getItemTypes();
-                setItemTypes(types);
+                const response = await ApiService.getItemById(itemId);
+                setItemDetails({
+                    itemPhotoUrl: response.item.itemPhotoUrl,
+                    itemType: response.item.itemType,
+                    itemPrice: response.item.itemPrice,
+                    itemDescription: response.item.itemDescription,
+                });
             } catch (error) {
-                console.error('Error fetching Item types:', error.message);
+                setError(error.response?.data?.message || error.message);
             }
         };
-        fetchItemTypes();
-    }, []);
-
-
+        fetchItemDetails();
+    }, [itemId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,18 +41,6 @@ const AddItemPage = () => {
             [name]: value,
         }));
     };
-
-
-    const handleItemTypeChange = (e) => {
-        if (e.target.value === 'new') {
-            setNewItemType(true);
-            setItemDetails(prevState => ({ ...prevState, itemType: '' }));
-        } else {
-            setNewItemType(false);
-            setItemDetails(prevState => ({ ...prevState, itemType: e.target.value }));
-        }
-    };
-
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -66,20 +54,9 @@ const AddItemPage = () => {
     };
 
 
-    const addItem = async () => {
-        if (!itemDetails.name || !itemDetails.itemType || !itemDetails.itemPrice || !itemDetails.itemDescription) {
-            setError('All item details must be provided.');
-            setTimeout(() => setError(''), 5000);
-            return;
-        }
-
-        if (!window.confirm('Do you want to add this Item?')) {
-            return
-        }
-
+    const handleUpdate = async () => {
         try {
             const formData = new FormData();
-            formData.append('name', itemDetails.name)
             formData.append('itemType', itemDetails.itemType);
             formData.append('itemPrice', itemDetails.itemPrice);
             formData.append('itemDescription', itemDetails.itemDescription);
@@ -88,30 +65,54 @@ const AddItemPage = () => {
                 formData.append('photo', file);
             }
 
-            const result = await ApiService.addItem(formData);
+            const result = await ApiService.updateItem(itemId, formData);
             if (result.statusCode === 200) {
-                setSuccess('Item Added successfully.');
+                setSuccess('Item updated successfully.');
                 
                 setTimeout(() => {
                     setSuccess('');
                     navigate('/admin/manage-items');
                 }, 3000);
             }
+            setTimeout(() => setSuccess(''), 5000);
         } catch (error) {
             setError(error.response?.data?.message || error.message);
             setTimeout(() => setError(''), 5000);
         }
     };
 
+    const handleDelete = async () => {
+        if (window.confirm('Do you want to delete this Item?')) {
+            try {
+                const result = await ApiService.deleteItem(itemId);
+                if (result.statusCode === 200) {
+                    setSuccess('Item Deleted successfully.');
+                    
+                    setTimeout(() => {
+                        setSuccess('');
+                        navigate('/admin/manage-items');
+                    }, 3000);
+                }
+            } catch (error) {
+                setError(error.response?.data?.message || error.message);
+                setTimeout(() => setError(''), 5000);
+            }
+        }
+    };
+
     return (
         <div className="edit-room-container">
-            <h2>Add New Item</h2>
+            <h2>Edit Item</h2>
             {error && <p className="error-message">{error}</p>}
             {success && <p className="success-message">{success}</p>}
             <div className="edit-room-form">
                 <div className="form-group">
-                    {preview && (
+                    {preview ? (
                         <img src={preview} alt="Item Preview" className="room-photo-preview" />
+                    ) : (
+                        itemDetails.itemPhotoUrl && (
+                            <img src={itemDetails.itemPhotoUrl} alt="item" className="room-photo" />
+                        )
                     )}
                     <input
                         type="file"
@@ -120,39 +121,19 @@ const AddItemPage = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Item Name</label>
+                    <label>Item Type</label>
                     <input
                         type="text"
-                        name="name"
-                        value={itemDetails.name}
+                        name="itemType"
+                        value={itemDetails.itemType}
                         onChange={handleChange}
                     />
-                </div>
-
-                <div className="form-group">
-                    <label>Item Type</label>
-                    <select value={itemDetails.itemType} onChange={handleItemTypeChange}>
-                        <option value="">Select Item type</option>
-                        {itemTypes.map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                        <option value="new">Other (please specify)</option>
-                    </select>
-                    {newItemType && (
-                        <input
-                            type="text"
-                            name="itemType"
-                            placeholder="Enter new Item type"
-                            value={itemDetails.itemType}
-                            onChange={handleChange}
-                        />
-                    )}
                 </div>
                 <div className="form-group">
                     <label>Item Price</label>
                     <input
                         type="text"
-                        name="itemPrice"
+                        name="roomPrice"
                         value={itemDetails.itemPrice}
                         onChange={handleChange}
                     />
@@ -165,10 +146,11 @@ const AddItemPage = () => {
                         onChange={handleChange}
                     ></textarea>
                 </div>
-                <button className="update-button" onClick={addItem}>Add Item</button>
+                <button className="update-button" onClick={handleUpdate}>Update Item</button>
+                <button className="delete-button" onClick={handleDelete}>Delete Item</button>
             </div>
         </div>
     );
 };
 
-export default AddItemPage;
+export default EditItemPage;

@@ -23,7 +23,7 @@ const HomePage = () => {
                     <div className="overlay"></div>
                     <div className="animated-texts overlay-content">
                         <h1>
-                            Welcome to <span className="phegon-color">E-Rentals</span>
+                            Welcome to <span className="phegon-color">Synergy x -Rentals</span>
                         </h1><br />
                         <h3>Rent Enjoy sparkling clean Washing machine </h3>
                     </div>
@@ -36,7 +36,7 @@ const HomePage = () => {
 
             <h4><a className="view-rooms-home" href="/items">All Items</a></h4>
 
-            <h2 className="home-services">Services at <span className="phegon-color">E- Rentals</span></h2>
+            <h2 className="home-services">Services at <span className="phegon-color">Synergy x- Rentals</span></h2>
 
             {/* SERVICES SECTION */}
             <section className="service-section"><div className="service-card">

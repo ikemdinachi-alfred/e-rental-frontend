@@ -21,6 +21,7 @@ const AdminPage = () => {
 
     return (
         <div className="admin-page">
+            <h1 className="welcome-message" >Synergy x Values You .. </h1>
             <h1 className="welcome-message">Welcome, {adminName}</h1>
             <div className="admin-actions">
                 <button className="admin-button" onClick={() => navigate('/admin/manage-items')}>

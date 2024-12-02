@@ -25,7 +25,7 @@ function Navbar() {
     return (
         <nav className="navbar">
             <div className="navbar-brand">
-                <NavLink to="/home">E-Rentals</NavLink>
+                <NavLink to="/home">Synergy x-Rentals</NavLink>
             </div>
             <button
                 className="navbar-toggle"

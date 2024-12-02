@@ -136,7 +136,7 @@ export default class ApiService {
 
     /**BOOKING */
     /* This  saves a new booking to the database */
-    static async bookRoom(itemId, userId, booking) {
+    static async bookItem(itemId, userId, booking) {
 
         console.log("USER ID IS: " + userId)
 
