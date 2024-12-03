@@ -16,8 +16,9 @@ const AllItemsPage = () => {
     const fetchItems = async () => {
       try {
         const response = await ApiService.getAllItems();
-        console.log('Fetched items:', response); // Debug
-        const allItems = Array.isArray(response) ? response : []; // Ensure array
+        console.log('Fetched items:', response.itemDTOList); // Debug
+        // const allItems = Array.isArray(response) ? response : []; // Ensure array
+        const allItems = response.itemDTOList
         setItems(allItems);
         setFilteredItems(allItems);
       } catch (error) {
@@ -71,9 +72,9 @@ const AllItemsPage = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="all-items">
+    <div className="all-rooms">
       <h2>All Items</h2>
-      <div className="all-items-filter-div">
+      <div className="all-room-filter-div">
         <label>Filter by Item Type:</label>
         <select value={selectedItemType} onChange={handleItemTypeChange}>
           <option value="">All</option>
@@ -82,6 +83,14 @@ const AllItemsPage = () => {
               {type}
             </option>
           ))}
+          {/* {
+            items.map(item=>(
+              <div key={item.id}>
+                <p>{item.itemName}</p>
+                <p>item.itemType</p>
+              </div>
+            ))
+          } */}
         </select>
       </div>
       <ItemSearch handleSearchResult={handleSearchResult} />

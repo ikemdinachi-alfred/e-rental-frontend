@@ -14,7 +14,7 @@ const ItemResult = ({ itemSearchResults }) => {
                             <img className='room-list-item-image' src={item.itemPhotoUrl} alt={item.itemType} />
                             <div className="room-details">
                                 <h3>{item.itemType}</h3>
-                                <p>Price: ${item.itemPrice} / night</p>
+                                <p>Price: ${item.itemPrice} / Month</p>
                                 <p>Description: {item.itemDescription}</p>
                             </div>
 
