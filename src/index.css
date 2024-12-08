@@ -78,7 +78,7 @@
   padding: 15px 20px;
   background: linear-gradient(90deg, #007F86, #00A0A8);
   color: white;
-  position: sticky;
+  /* position: sticky; This is the problem. */ 
   top: 0;
   z-index: 1000;
 }
@@ -94,7 +94,7 @@
 /* Navbar Toggle Button */
 .navbar-toggle {
   display: none;
-  background: none;
+  background: transparent;
   border: none;
   font-size: 1.8em;
   color: white;
@@ -336,8 +336,8 @@ button[type="submit"]:hover {
   /* background-image: url("../public/assets/images/hotel.webp"); */
   background-size: cover;
   background-position: center;
-  position: relative;
-  height: 80vh;
+  /* position: relative; */
+  /* height: 80vh; */
 }
 
 .header-banner {

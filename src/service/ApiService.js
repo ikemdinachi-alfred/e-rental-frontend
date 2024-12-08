@@ -3,6 +3,8 @@ import axios from "axios"
 export default class ApiService {
 
     static BASE_URL = "https://docked-e-rental-project-1.onrender.com"
+    
+    // "http://localhost:9090"
 
     static getHeader() {
         const token = localStorage.getItem("token");
@@ -124,14 +126,23 @@ export default class ApiService {
 
     /* This updates a item */
     static async updateItem(itemId, formData) {
-        const result = await axios.put(`${this.BASE_URL}/items/update/${itemId}`, formData, {
+        const result = await axios.put(`${this.BASE_URL}/items/${itemId}`, formData, {
             headers: {
-                ...this.getHeader(),
-                'Content-Type': 'multipart/form-data'
-            }
+                ...this.getHeader(), // Ensure getHeader doesn't include Content-Type
+            },
         });
         return result.data;
     }
+    
+    // static async updateItem(itemId, formData) {
+    //     const result = await axios.put(`${this.BASE_URL}/items/update/${itemId}`, formData, {
+    //         headers: {
+    //             ...this.getHeader(),
+    //             'Content-Type': 'multipart/form-data'
+    //         }
+    //     });
+    //     return result.data;
+    // }
 
 
     /**BOOKING */

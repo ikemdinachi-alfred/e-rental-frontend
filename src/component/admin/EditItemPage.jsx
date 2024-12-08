@@ -21,11 +21,13 @@ const EditItemPage = () => {
         const fetchItemDetails = async () => {
             try {
                 const response = await ApiService.getItemById(itemId);
+                console.log(response); // Log response for debugging
                 setItemDetails({
-                    itemPhotoUrl: response.item.itemPhotoUrl,
-                    itemType: response.item.itemType,
-                    itemPrice: response.item.itemPrice,
-                    itemDescription: response.item.itemDescription,
+                    itemPhotoUrl: response?.itemPhotoUrl || '',
+                    name: response?.name || '',
+                    itemType: response?.itemType || '',
+                    itemPrice: response?.itemPrice || '',
+                    itemDescription: response?.itemDescription || '',
                 });
             } catch (error) {
                 setError(error.response?.data?.message || error.message);
@@ -36,7 +38,7 @@ const EditItemPage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setItemDetails(prevState => ({
+        setItemDetails((prevState) => ({
             ...prevState,
             [name]: value,
         }));
@@ -53,10 +55,10 @@ const EditItemPage = () => {
         }
     };
 
-
     const handleUpdate = async () => {
         try {
             const formData = new FormData();
+            formData.append('name', itemDetails.name);
             formData.append('itemType', itemDetails.itemType);
             formData.append('itemPrice', itemDetails.itemPrice);
             formData.append('itemDescription', itemDetails.itemDescription);
@@ -66,15 +68,14 @@ const EditItemPage = () => {
             }
 
             const result = await ApiService.updateItem(itemId, formData);
+            console.log(result)
             if (result.statusCode === 200) {
                 setSuccess('Item updated successfully.');
-                
                 setTimeout(() => {
                     setSuccess('');
                     navigate('/admin/manage-items');
                 }, 3000);
             }
-            setTimeout(() => setSuccess(''), 5000);
         } catch (error) {
             setError(error.response?.data?.message || error.message);
             setTimeout(() => setError(''), 5000);
@@ -82,12 +83,11 @@ const EditItemPage = () => {
     };
 
     const handleDelete = async () => {
-        if (window.confirm('Do you want to delete this Item?')) {
+        if (window.confirm('Do you want to delete this item?')) {
             try {
                 const result = await ApiService.deleteItem(itemId);
                 if (result.statusCode === 200) {
-                    setSuccess('Item Deleted successfully.');
-                    
+                    setSuccess('Item deleted successfully.');
                     setTimeout(() => {
                         setSuccess('');
                         navigate('/admin/manage-items');
@@ -114,11 +114,7 @@ const EditItemPage = () => {
                             <img src={itemDetails.itemPhotoUrl} alt="item" className="room-photo" />
                         )
                     )}
-                    <input
-                        type="file"
-                        name="itemPhoto"
-                        onChange={handleFileChange}
-                    />
+                    <input type="file" name="itemPhoto" onChange={handleFileChange} />
                 </div>
                 <div className="form-group">
                     <label>Item Type</label>
@@ -130,10 +126,19 @@ const EditItemPage = () => {
                     />
                 </div>
                 <div className="form-group">
+                    <label>Item Name</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={itemDetails.name}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
                     <label>Item Price</label>
                     <input
                         type="text"
-                        name="roomPrice"
+                        name="itemPrice"
                         value={itemDetails.itemPrice}
                         onChange={handleChange}
                     />

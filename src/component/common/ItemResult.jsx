@@ -22,17 +22,18 @@ const ItemResult = ({ itemSearchResults }) => {
                                 {isAdmin ? (
                                     <button
                                         className="edit-room-button"
-                                        onClick={() => navigate(`/admin/edit-item/${item.id}`)} // Navigate to edit room with room ID
+                                        onClick={() => navigate(`/admin/edit-item/${item.id}`)} // Navigate to edit item with item ID
                                     >
                                         Edit Item
                                     </button>
                                 ) : (
                                     <button
-                                        className="book-now-button"
-                                        onClick={() => navigate(`/room-details-book/${item.id}`)} // Navigate to book room with room ID
-                                    >
-                                        View/Book Now
-                                    </button>
+                                    className="book-now-button"
+                                    onClick={() => navigate(`/item-details-book/${item.id}`)} // Corrected route
+                                  >
+                                    View/Book Now
+                                  </button>
+                                  
                                 )}
                             </div>
 
@@ -45,3 +46,5 @@ const ItemResult = ({ itemSearchResults }) => {
 }
 
 export default ItemResult;
+
+

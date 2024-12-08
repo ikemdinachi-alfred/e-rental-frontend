@@ -16,26 +16,24 @@ const AllItemsPage = () => {
     const fetchItems = async () => {
       try {
         const response = await ApiService.getAllItems();
-        console.log('Fetched items:', response.itemDTOList); // Debug
-        // const allItems = Array.isArray(response) ? response : []; // Ensure array
         const allItems = response.itemDTOList
         setItems(allItems);
         setFilteredItems(allItems);
       } catch (error) {
         console.error('Error fetching items:', error.message);
-        setItems([]); // Fallback to empty array
-        setFilteredItems([]); // Fallback to empty array
+        setItems([]); 
+        setFilteredItems([]); 
       }
     };
 
     const fetchItemTypes = async () => {
       try {
         const types = await ApiService.getItemTypes();
-        console.log('Fetched item types:', types); // Debug
-        setItemTypes(Array.isArray(types) ? types : []); // Ensure array
+        console.log('Fetched item types:', types); 
+        setItemTypes(Array.isArray(types) ? types : []); 
       } catch (error) {
         console.error('Error fetching item types:', error.message);
-        setItemTypes([]); // Fallback to empty array
+        setItemTypes([]); 
       }
     };
 
