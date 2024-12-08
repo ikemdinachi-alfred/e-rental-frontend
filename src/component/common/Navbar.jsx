@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ApiService from '../../service/ApiService';
-//import './Navbar.css';
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -19,6 +18,7 @@ function Navbar() {
         ApiService.logout();
         navigate('/home');
         setShowLogoutModal(false); // Close the modal
+        setMenuOpen(false); // Close the menu
     };
 
     const cancelLogout = () => {
@@ -29,10 +29,14 @@ function Navbar() {
         setMenuOpen(!menuOpen);
     };
 
+    const handleMenuItemClick = () => {
+        setMenuOpen(false); // Close the menu when a link is clicked
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-brand">
-                <NavLink to="/home">Synergy x-Rentals</NavLink>
+                <NavLink to="/home" onClick={handleMenuItemClick}>Synergy x-Rentals</NavLink>
             </div>
             <button
                 className="navbar-toggle"
@@ -43,44 +47,44 @@ function Navbar() {
             </button>
             <ul className={`navbar-ul ${menuOpen ? 'dropdown' : ''}`}>
                 <li>
-                    <NavLink to="/home" activeclassname="active">
+                    <NavLink to="/home" activeclassname="active" onClick={handleMenuItemClick}>
                         Home
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/items" activeclassname="active">
+                    <NavLink to="/items" activeclassname="active" onClick={handleMenuItemClick}>
                         Items
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/find-booking" activeclassname="active">
+                    <NavLink to="/find-booking" activeclassname="active" onClick={handleMenuItemClick}>
                         Bookings
                     </NavLink>
                 </li>
                 {isUser && (
                     <li>
-                        <NavLink to="/profile" activeclassname="active">
+                        <NavLink to="/profile" activeclassname="active" onClick={handleMenuItemClick}>
                             Profile
                         </NavLink>
                     </li>
                 )}
                 {isAdmin && (
                     <li>
-                        <NavLink to="/admin" activeclassname="active">
+                        <NavLink to="/admin" activeclassname="active" onClick={handleMenuItemClick}>
                             Admin
                         </NavLink>
                     </li>
                 )}
                 {!isAuthenticated && (
                     <li>
-                        <NavLink to="/login" activeclassname="active">
+                        <NavLink to="/login" activeclassname="active" onClick={handleMenuItemClick}>
                             Login
                         </NavLink>
                     </li>
                 )}
                 {!isAuthenticated && (
                     <li>
-                        <NavLink to="/register" activeclassname="active">
+                        <NavLink to="/register" activeclassname="active" onClick={handleMenuItemClick}>
                             Register
                         </NavLink>
                     </li>

@@ -272,20 +272,7 @@ button[type="submit"]:hover {
   text-decoration: none;
 }
 
-/**NAV BAR STYLING END HERE*/
 
-/* FOOTER STYKLING */
-/* .my-footer {
-  color: #f0e8e8;
-  background-color: #444;
-  padding: 20px;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  font-weight: 500; 
-}
-*/
 .my-footer {
   color: #f0e8e8;
   background-color: #444;
@@ -1230,16 +1217,40 @@ h2 {
 }
 
 
-
-
-
-
-
-
 /*
 /* Responsive styles */
 @media (max-width: 768px) {
-
+  /* newly added */
+    .all-rooms {
+      margin: 10px;
+      padding: 5px;
+    }
+  
+    .all-room-filter-div {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .all-room-filter-div label,
+    .all-room-filter-div select {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .item-card {
+      margin: 0 auto;
+    }
+  
+    .item-details h3 {
+      font-size: 16px;
+    }
+  
+    .item-details p {
+      font-size: 12px;
+    }
+  
+  
+/*  continue*/
   .admin-actions {
       flex-direction: column;
       gap: 10px;
